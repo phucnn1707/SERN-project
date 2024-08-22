@@ -3,7 +3,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const { connectDB } = require('./config/db.config');
-const exampleRoutes = require('./routes/example.routes');
 const { default: configViewEngine } = require('./config/viewEngine.config');
 const { default: initWebRoutes } = require('./routes/web');
 
@@ -15,9 +14,6 @@ const app = express();
 //config viiew engine
 configViewEngine(app);
 
-//init web routes
-initWebRoutes(app);
-
 // Middleware
 app.use(cors());
 // parse requests of content-type - application/x-www-form-urlencoded
@@ -28,16 +24,16 @@ app.use(bodyParser.json());
 // Database connection
 connectDB();
 
-// Use routes
-app.use('/api', exampleRoutes);
+//init web routes
+initWebRoutes(app);
 
 // Basic route
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+  res.send('Hello, World!');
 });
 
 // Start the server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });
